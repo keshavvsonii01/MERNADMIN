@@ -33,6 +33,10 @@ router
   .route("/services")
   .get(authMiddleware, adminMiddleware, adminController.getAllServices);
 
+  router
+  .route("/services/:id")
+  .get(authMiddleware, adminMiddleware, adminController.getServiceById);
+
 
 
 module.exports = router;

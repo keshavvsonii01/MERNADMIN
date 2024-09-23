@@ -74,7 +74,7 @@ export const AdminServices = () => {
                     <td>{curService.price}</td>
                     <td>{curService.provider}</td>
                     <td>
-                      <Link to={`/admin/users/${curService._id}/edit`}>
+                      <Link to={`/admin/services/${curService._id}/edit`}>
                         Edit
                       </Link>
                     </td>

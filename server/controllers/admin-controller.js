@@ -5,7 +5,7 @@ const Service = require("../models/service-model");
 // *-------------------------------
 //* getAllUsers Logic 📝
 // *-------------------------------
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({}, { password: 0 });
     console.log(users);
@@ -22,7 +22,7 @@ const getAllUsers = async (req, res) => {
 //* single user Logic 📝
 // *-------------------------------
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const data = await User.findOne({ _id: id }, { password: 0 });
@@ -36,7 +36,7 @@ const getUserById = async (req, res) => {
 //* user update Logic 📝
 // *-------------------------------
 
-const updateUserById = async (req, res) => {
+const updateUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const updatedUserData = req.body;
@@ -57,7 +57,7 @@ const updateUserById = async (req, res) => {
 //* user delete Logic 📝
 // *-------------------------------
 
-const deleteUserById = async (req, res) => {
+const deleteUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     await User.deleteOne({ _id: id });
@@ -70,7 +70,7 @@ const deleteUserById = async (req, res) => {
 // *-------------------------------
 //* getAllContacts Logic 📝
 // *-------------------------------
-const getAllContacts = async (req, res) => {
+const getAllContacts = async (req, res, next) => {
   try {
     const contacts = await Contact.find();
     console.log(contacts);
@@ -87,7 +87,7 @@ const getAllContacts = async (req, res) => {
 //* contacts delete Logic 📝
 // *-------------------------------
 
-const deleteContactById = async (req, res) => {
+const deleteContactById = async (req, res, next) => {
   try {
     const id = req.params.id;
     await Contact.deleteOne({ _id: id });
@@ -100,7 +100,7 @@ const deleteContactById = async (req, res) => {
 // *-------------------------------
 //* getAllServices Logic 
 // *-------------------------------
-const getAllServices = async (req, res) => {
+const getAllServices = async (req, res, next) => {
   try {
     const services = await Service.find();
     console.log(services);
@@ -108,6 +108,20 @@ const getAllServices = async (req, res) => {
       return res.status(404).json({ message: "No services Found" });
     }
     return res.status(200).json(services);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// *-------------------------------
+//* single Service Logic 📝
+// *-------------------------------
+
+const getServiceById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const data = await Service.findOne({ _id: id });
+    return res.status(200).json(data);
   } catch (error) {
     next(error);
   }
@@ -121,4 +135,5 @@ module.exports = {
   updateUserById,
   deleteContactById,
   getAllServices,
+  getServiceById
 };
