@@ -1,7 +1,9 @@
 require("dotenv").config();
+const path = require('path');
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const fileUpload = require('express-fileupload');
 const authRoute = require("./router/auth-router");
 const contactRoute = require("./router/contact-router");
 const serviceRoute = require("./router/service-router");
@@ -26,7 +28,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use(fileUpload());
+
 app.use(express.json());
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Mount the Router: To use the router in your main Express app, you can "mount" it at a specific URL prefix
 app.use("/api/auth", authRoute);

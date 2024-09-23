@@ -11,15 +11,20 @@ export const Service = () => {
 
       <div className="container grid grid-three-cols">
         {services.map((curElem, index) => {
-          const { price, description, provider, service } = curElem;
+          const { price, description, provider, service, image } = curElem;
 
           return (
             <div className="card" key={index}>
               <div className="card-img">
                 <img
-                  src="/images/design.png"
-                  alt="our services info"
+                  src={
+                    image
+                      ? `http://localhost:5001${image}`
+                      : "/placeholder-image.jpg"
+                  }
+                  alt={`${service} service`}
                   width="200"
+                  height="200"
                 />
               </div>
 

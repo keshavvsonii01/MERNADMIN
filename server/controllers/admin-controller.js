@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const User = require("../models/user-model");
 const Contact = require("../models/contact-model");
 const Service = require("../models/service-model");
@@ -134,19 +136,74 @@ const getServiceById = async (req, res, next) => {
 const updateServiceById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const updatedServiceData = req.body;
+    const { service, description, price, provider } = req.body;
+    
+    // Find the existing service
+    const existingService = await Service.findById(id);
+    if (!existingService) {
+      return res.status(404).json({ message: "Service not found" });
+    }
 
-    const updatedData = await Service.updateOne(
-      { _id: id },
-      {
-        $set: updatedServiceData,
+    // Handle image upload
+    let imagePath = existingService.image; // Keep the existing image by default
+    if (req.files && req.files.image) {
+      const file = req.files.image;
+      const fileName = `${Date.now()}_${file.name}`;
+      const uploadPath = path.join(__dirname, '..', 'uploads', fileName);
+
+      // Move the new file to the upload directory
+      await file.mv(uploadPath);
+
+      // Delete the old image if it exists
+      if (existingService.image) {
+        const oldImagePath = path.join(__dirname, '..', existingService.image);
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
       }
+
+      // Update the image path
+      imagePath = `/uploads/${fileName}`;
+    }
+
+    // Update the service
+    const updatedServiceData = {
+      service,
+      description,
+      price,
+      provider,
+      image: imagePath
+    };
+
+    const updatedData = await Service.findByIdAndUpdate(
+      id,
+      updatedServiceData,
+      { new: true, runValidators: true }
     );
+
     return res.status(200).json(updatedData);
   } catch (error) {
     next(error);
   }
 };
+
+
+// const updateServiceById = async (req, res, next) => {
+//   try {
+//     const id = req.params.id;
+//     const updatedServiceData = req.body;
+
+//     const updatedData = await Service.updateOne(
+//       { _id: id },
+//       {
+//         $set: updatedServiceData,
+//       }
+//     );
+//     return res.status(200).json(updatedData);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // *-------------------------------
 //* Service delete Logic 📝
