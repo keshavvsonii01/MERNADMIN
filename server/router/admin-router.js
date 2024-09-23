@@ -41,4 +41,8 @@ router
   .route("/services/update/:id")
   .patch(authMiddleware, adminMiddleware, adminController.updateServiceById);
 
+  router
+  .route("/services/delete/:id")
+  .delete(authMiddleware, adminMiddleware, adminController.deleteServiceById);
+
 module.exports = router;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/auth";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 export const AdminServices = () => {
@@ -19,30 +20,33 @@ export const AdminServices = () => {
       const data = await response.json();
       console.log(`Services ${data}`);
       setServices(data);
+      if(!response.ok) {
+        toast.error("No services")
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  //   delelte the user on delete button
-  // const deleteUser = async (id) => {
-  //   try {
-  //     const response = await fetch(`http://localhost:5001/api/admin/users/delete/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         Authorization: authorizationToken,
-  //       },
-  //     });
-  //     const data = await response.json();
-  //     console.log(`users after delete:  ${data}`);
+    // delelte the user on delete button
+  const deleteService = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/admin/services/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
+      const data = await response.json();
+      console.log(`Services after delete:  ${data}`);
 
-  //     if (response.ok) {
-  //       getAllUsersData();
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+      if (response.ok) {
+        getAllServices();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getAllServices();
@@ -78,14 +82,14 @@ export const AdminServices = () => {
                         Edit
                       </Link>
                     </td>
-                    {/* <td>
+                    <td>
                         <button
                           className="btn"
-                          onClick={() => deleteUser(curUser._id)}
+                          onClick={() => deleteService(curService._id)}
                         >
                           Delete
                         </button>
-                      </td> */}
+                      </td>
                   </tr>
                 );
               })}

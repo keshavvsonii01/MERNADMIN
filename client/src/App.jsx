@@ -36,7 +36,6 @@ const App = () => {
             <Route path="contacts" element={<AdminContacts />} />
             <Route path="services" element={<AdminServices />} />
             <Route path="services/:id/edit" element={<AdminServicesUpdate />} />
-
           </Route>
         </Routes>
         <Footer />

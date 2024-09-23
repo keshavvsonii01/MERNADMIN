@@ -148,6 +148,20 @@ const updateServiceById = async (req, res, next) => {
   }
 };
 
+// *-------------------------------
+//* Service delete Logic 📝
+// *-------------------------------
+
+const deleteServiceById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    await Service.deleteOne({ _id: id });
+    return res.status(200).json({ message: "Service Deleted Successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllUsers,
   getAllContacts,
@@ -158,4 +172,5 @@ module.exports = {
   getAllServices,
   getServiceById,
   updateServiceById,
+  deleteServiceById,
 };

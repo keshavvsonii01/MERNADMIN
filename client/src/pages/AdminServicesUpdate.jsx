@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 
@@ -14,6 +14,7 @@ export const AdminServicesUpdate = () => {
       });
     
       const params = useParams();
+      const navigate = useNavigate();
       console.log("params single service: ", params);
       const { authorizationToken } = useAuth();
     
@@ -29,7 +30,6 @@ export const AdminServicesUpdate = () => {
           const data = await response.json();
           console.log(`Service single data:  ${data}`);
           setData(data);
-
         } catch (error) {
           console.log(error);
         }
@@ -69,6 +69,7 @@ export const AdminServicesUpdate = () => {
 
       if (response.ok) {
         toast.success("Updated successfully");
+        navigate("/admin/services");
       } else {
         toast.error("Not Updated ");
       }
