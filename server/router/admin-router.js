@@ -29,14 +29,16 @@ router
   .route("/contacts/delete/:id")
   .delete(authMiddleware, adminMiddleware, adminController.deleteContactById);
 
-  router
+router
   .route("/services")
   .get(authMiddleware, adminMiddleware, adminController.getAllServices);
 
-  router
+router
   .route("/services/:id")
   .get(authMiddleware, adminMiddleware, adminController.getServiceById);
 
-
+router
+  .route("/services/update/:id")
+  .patch(authMiddleware, adminMiddleware, adminController.updateServiceById);
 
 module.exports = router;

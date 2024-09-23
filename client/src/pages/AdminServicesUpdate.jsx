@@ -49,6 +49,35 @@ export const AdminServicesUpdate = () => {
         });
       };
 
+
+        // to udpate the data dynamically
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/admin/services/update/${params.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorizationToken,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        toast.success("Updated successfully");
+      } else {
+        toast.error("Not Updated ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
       
       return (
         <section className="section-contact">
@@ -59,7 +88,7 @@ export const AdminServicesUpdate = () => {
           <div className="container grid grid-two-cols">
             {/* contact form content actual  */}
             <section className="section-form">
-              <form >
+              <form onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="service">Service name</label>
                   <input
@@ -113,7 +142,7 @@ export const AdminServicesUpdate = () => {
                 </div>
     
                 <div>
-                  <button type="submit">Update</button>
+                  <button onSubmit={handleSubmit} type="submit">Update</button>
                 </div>
               </form>
             </section>

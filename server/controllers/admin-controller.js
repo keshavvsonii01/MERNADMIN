@@ -127,6 +127,27 @@ const getServiceById = async (req, res, next) => {
   }
 };
 
+// *-------------------------------
+//* Service update Logic 📝
+// *-------------------------------
+
+const updateServiceById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updatedServiceData = req.body;
+
+    const updatedData = await Service.updateOne(
+      { _id: id },
+      {
+        $set: updatedServiceData,
+      }
+    );
+    return res.status(200).json(updatedData);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllUsers,
   getAllContacts,
@@ -135,5 +156,6 @@ module.exports = {
   updateUserById,
   deleteContactById,
   getAllServices,
-  getServiceById
+  getServiceById,
+  updateServiceById,
 };
