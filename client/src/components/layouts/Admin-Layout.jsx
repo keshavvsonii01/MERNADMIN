@@ -19,6 +19,7 @@ export const AdminLayout = () => {
     <>
       <header>
         <div className="container">
+          <h1>Admin Panel</h1>
           <nav>
             <ul>
               <li>
@@ -32,7 +33,7 @@ export const AdminLayout = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/service">
+                <NavLink to="/admin/services">
                   <FaRegListAlt /> Services
                 </NavLink>
               </li>

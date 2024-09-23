@@ -29,4 +29,10 @@ router
   .route("/contacts/delete/:id")
   .delete(authMiddleware, adminMiddleware, adminController.deleteContactById);
 
+  router
+  .route("/services")
+  .get(authMiddleware, adminMiddleware, adminController.getAllServices);
+
+
+
 module.exports = router;

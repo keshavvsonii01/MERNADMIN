@@ -1,5 +1,6 @@
 const User = require("../models/user-model");
 const Contact = require("../models/contact-model");
+const Service = require("../models/service-model");
 
 // *-------------------------------
 //* getAllUsers Logic 📝
@@ -96,6 +97,22 @@ const deleteContactById = async (req, res) => {
   }
 };
 
+// *-------------------------------
+//* getAllServices Logic 
+// *-------------------------------
+const getAllServices = async (req, res) => {
+  try {
+    const services = await Service.find();
+    console.log(services);
+    if (!services || services.length === 0) {
+      return res.status(404).json({ message: "No services Found" });
+    }
+    return res.status(200).json(services);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllUsers,
   getAllContacts,
@@ -103,4 +120,5 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteContactById,
+  getAllServices,
 };
