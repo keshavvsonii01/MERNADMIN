@@ -41,8 +41,12 @@ router
   .route("/services/update/:id")
   .patch(authMiddleware, adminMiddleware, adminController.updateServiceById);
 
-  router
+router
   .route("/services/delete/:id")
   .delete(authMiddleware, adminMiddleware, adminController.deleteServiceById);
+
+router
+  .route("/services/add")
+  .post(authMiddleware, adminMiddleware, adminController.addNewService);
 
 module.exports = router;

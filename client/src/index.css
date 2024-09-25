@@ -466,7 +466,7 @@ a.active {
 .admin-users {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 th {
@@ -481,10 +481,9 @@ th {
 td {
   font-size: 1.7rem;
   letter-spacing: 0.1rem;
-  padding: 3rem;
+  padding: 2rem;
   text-align: center;
   color: var(--dark-color);
-  width: 30rem;
   /* border: 0.1rem solid red; */
 }
 
@@ -519,7 +518,7 @@ table {
 
 body tr {
   display: grid;
-  grid-template-columns: repeat(6, minmax(10rem, 1fr));
+  grid-template-columns: repeat(7, minmax(10rem, 1fr));
   align-items: center;
   box-shadow: 0 0.3rem 0 grey;
   margin-bottom: 10px;

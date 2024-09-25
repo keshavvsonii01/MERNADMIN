@@ -15,6 +15,7 @@ import { AdminContacts } from "./pages/Admin-Contacts";
 import { AdminUpdate } from "./pages/Admin-Update";
 import { AdminServices } from "./pages/AdminServices";
 import { AdminServicesUpdate } from "./pages/AdminServicesUpdate";
+import AdminServicesAdd from "./pages/AdminServicesAdd";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="contacts" element={<AdminContacts />} />
             <Route path="services" element={<AdminServices />} />
             <Route path="services/:id/edit" element={<AdminServicesUpdate />} />
+            <Route path="services/add" element={<AdminServicesAdd /> } />
           </Route>
         </Routes>
         <Footer />
