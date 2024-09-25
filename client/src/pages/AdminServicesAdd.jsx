@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const AdminServicesAdd = () => {
-    const [data, setData] = useState({
-        service: "",
-        description: "",
-        price: "",
-        provider: "",
-      });
-      const [image, setImage] = useState(null);
-      const [previewImage, setPreviewImage] = useState(null);
-      
+  const [data, setData] = useState({
+    service: "",
+    description: "",
+    price: "",
+    provider: "",
+  });
+  const [image, setImage] = useState(null);
+  const [pdf, setPdf] = useState(null);  // State for storing the selected PDF file
+
   const navigate = useNavigate();
   const { authorizationToken } = useAuth();
 
@@ -29,8 +29,11 @@ const AdminServicesAdd = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setPreviewImage(URL.createObjectURL(file));
   };
+  const handlePdfChange = (e) => {
+    setPdf(e.target.files[0]);  // Save the selected PDF file in state
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +47,10 @@ const AdminServicesAdd = () => {
       if (image) {
         formData.append("image", image);
       }
+      if (pdf) {
+        formData.append('pdf', pdf);  // Append the PDF file
+      }
+      
 
       const response = await fetch(
         `http://localhost:5001/api/admin/services/add`,
@@ -125,8 +132,21 @@ const AdminServicesAdd = () => {
               accept="image/*"
             />
           </div>
+          <div>
+            <label htmlFor="pdf">Upload PDF:</label>
+            <input
+              type="file"
+              id="pdf"
+              name="pdf"
+              onChange={handlePdfChange}
+              accept=".pdf" // Restrict to PDF files only
+            />
+          </div>
+
           <div className="button-group">
-            <button onSubmit={handleSubmit} type="submit">Add Service</button>
+            <button onSubmit={handleSubmit} type="submit">
+              Add Service
+            </button>
           </div>
         </form>
       </div>

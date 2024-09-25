@@ -6,12 +6,12 @@ export const Service = () => {
   return (
     <section className="section-services">
       <div className="container">
-        <h1 className="main-heading">Services </h1>
+        <h1 className="main-heading">Services</h1>
       </div>
 
       <div className="container grid grid-three-cols">
         {services.map((curElem, index) => {
-          const { price, description, provider, service, image } = curElem;
+          const { price, description, provider, service, image, pdf } = curElem;
 
           return (
             <div className="card" key={index}>
@@ -23,8 +23,7 @@ export const Service = () => {
                       : "/placeholder-image.jpg"
                   }
                   alt={`${service} service`}
-                  width="200"
-                  height="200"
+                  className="service-image" // Added class for styling
                 />
               </div>
 
@@ -35,6 +34,30 @@ export const Service = () => {
                 </div>
                 <h2>{service}</h2>
                 <p>{description}</p>
+
+                {/* Render PDF preview if it exists */}
+                {pdf && (
+                  <div className="pdf-preview">
+                    <iframe
+                      src={`http://localhost:5001${pdf}`}
+                      width="100%"
+                      height="300px"  // Adjust height for better view
+                      className="service-pdf" // Added class for styling
+                      title="PDF Preview"
+                    ></iframe>
+                  </div>
+                )}
+                  {pdf && (
+                  <div className="pdf-link">
+                    <a
+                      href={`http://localhost:5001${pdf}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download PDF
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           );

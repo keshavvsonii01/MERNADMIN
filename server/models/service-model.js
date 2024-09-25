@@ -8,7 +8,11 @@ const serviceSchema = new Schema({
   image: {
     type: String,
     default: '', // You can set a default image path if you want
-  }
+  },
+  pdf: {
+    type: String,
+    default: null,
+  },
 });
 
 const Service = new model("Service", serviceSchema);

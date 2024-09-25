@@ -210,18 +210,32 @@ const addNewService = async (req, res, next) => {
   try {
     const { service, description, price, provider } = req.body;
     let imagePath = null; // Default imagePath as null
+    let pdfPath = null;   // Default pdfPath as null
 
     // Handle image upload
     if (req.files && req.files.image) {
-      const file = req.files.image;
-      const fileName = `${Date.now()}_${file.name}`;
-      const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+      const imageFile = req.files.image;
+      const imageFileName = `${Date.now()}_${imageFile.name}`;
+      const imageUploadPath = path.join(__dirname, "..", "uploads", imageFileName);
 
-      // Move the new file to the upload directory
-      await file.mv(uploadPath);
+      // Move the image file to the upload directory
+      await imageFile.mv(imageUploadPath);
 
       // Set the imagePath to be saved in the database
-      imagePath = `/uploads/${fileName}`;
+      imagePath = `/uploads/${imageFileName}`;
+    }
+
+    // Handle PDF upload
+    if (req.files && req.files.pdf) {
+      const pdfFile = req.files.pdf;
+      const pdfFileName = `${Date.now()}_${pdfFile.name}`;
+      const pdfUploadPath = path.join(__dirname, "..", "uploads", pdfFileName);
+
+      // Move the PDF file to the upload directory
+      await pdfFile.mv(pdfUploadPath);
+
+      // Set the pdfPath to be saved in the database
+      pdfPath = `/uploads/${pdfFileName}`;
     }
 
     // Create a new service
@@ -231,6 +245,7 @@ const addNewService = async (req, res, next) => {
       price: Number(price),  // Ensure price is saved as a number
       provider,
       image: imagePath,      // Save image path or null if no image
+      pdf: pdfPath,          // Save pdf path or null if no PDF
     };
 
     // Save the service to the database

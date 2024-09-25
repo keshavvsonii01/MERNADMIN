@@ -72,6 +72,7 @@ export const AdminServices = () => {
                 <th>Price</th>
                 <th>Provider</th>
                 <th>Image</th>
+                <th>Pdf</th>
                 <th>Update</th>
                 <th>Delete</th>
               </tr>
@@ -90,6 +91,13 @@ export const AdminServices = () => {
                         alt={curService.service} 
                         style={{width: '50px', height: '50px'}}
                       />
+                    )}
+                  </td>
+                  <td>
+                    {curService.pdf && (
+                      <a href={`http://localhost:5001${curService.pdf}`} target="_blank">
+                        Download PDF
+                      </a>
                     )}
                   </td>
                   <td>
