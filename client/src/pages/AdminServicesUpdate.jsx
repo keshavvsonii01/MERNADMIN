@@ -12,6 +12,7 @@ export const AdminServicesUpdate = () => {
   });
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [pdf, setPdf] = useState(null); // State for storing the selected PDF file
 
   const params = useParams();
   const navigate = useNavigate();
@@ -21,12 +22,15 @@ export const AdminServicesUpdate = () => {
   // get single user data
   const getSingleServiceData = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/admin/services/${params.id}`, {
-        method: "GET",
-        headers: {
-          Authorization: authorizationToken,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5001/api/admin/services/${params.id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: authorizationToken,
+          },
+        }
+      );
       const data = await response.json();
       console.log(`Service single data:  ${data}`);
       setData(data);
@@ -56,6 +60,10 @@ export const AdminServicesUpdate = () => {
     setPreviewImage(URL.createObjectURL(file));
   };
 
+  const handlePdfChange = (e) => {
+    setPdf(e.target.files[0]); // Save the selected PDF file in state
+  };
+
   // to update the data dynamically
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,6 +76,9 @@ export const AdminServicesUpdate = () => {
       formData.append("provider", data.provider);
       if (image) {
         formData.append("image", image);
+      }
+      if (pdf) {
+        formData.append("pdf", pdf); // Append the PDF file
       }
 
       const response = await fetch(
@@ -174,6 +185,17 @@ export const AdminServicesUpdate = () => {
                 />
               </div>
             )}
+
+            <div>
+              <label htmlFor="pdf">Upload PDF:</label>
+              <input
+                type="file"
+                id="pdf"
+                name="pdf"
+                onChange={handlePdfChange}
+                accept=".pdf" // Restrict to PDF files only
+              />
+            </div>
 
             <div>
               <button type="submit">Update</button>

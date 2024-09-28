@@ -167,6 +167,28 @@ const updateServiceById = async (req, res, next) => {
       imagePath = `/uploads/${fileName}`;
     }
 
+    // Handle PDF upload
+    let pdfPath = existingService.pdf; // Keep the existing PDF by default
+    if (req.files && req.files.pdf) {
+      const file = req.files.pdf;
+      const fileName = `${Date.now()}_${file.name}`;
+      const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+
+      // Move the new file to the upload directory
+      await file.mv(uploadPath);
+
+      // Delete the old PDF if it exists
+      if (existingService.pdf) {
+        const oldPdfPath = path.join(__dirname, "..", existingService.pdf);
+        if (fs.existsSync(oldPdfPath)) {
+          fs.unlinkSync(oldPdfPath);
+        }
+      }
+
+      // Update the PDF path
+      pdfPath = `/uploads/${fileName}`;
+    }
+
     // Update the service
     const updatedServiceData = {
       service,
@@ -174,6 +196,7 @@ const updateServiceById = async (req, res, next) => {
       price,
       provider,
       image: imagePath,
+      pdf: pdfPath,
     };
 
     const updatedData = await Service.findByIdAndUpdate(
@@ -184,6 +207,7 @@ const updateServiceById = async (req, res, next) => {
 
     return res.status(200).json(updatedData);
   } catch (error) {
+    console.error('Error updating service:', error);
     next(error);
   }
 };
